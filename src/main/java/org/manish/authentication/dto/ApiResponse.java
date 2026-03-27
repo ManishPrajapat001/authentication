@@ -31,7 +31,7 @@ public class ApiResponse {
     String message;
     Object user;
     boolean success;
-    public ApiResponse (boolean status,String message, User user){
+    public ApiResponse (boolean status,String message, UserResponseDTO user){
         this.message = message;
         this.user = user;
         this.success = status;

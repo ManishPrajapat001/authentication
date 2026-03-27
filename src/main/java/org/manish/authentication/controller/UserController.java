@@ -13,13 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-    @Autowired
-    UserService _userService;
+
+    private final UserService _userService;
+
+    public UserController(UserService userService) {
+        _userService = userService;
+    }
 
     @PostMapping("/register")
     public ApiResponse registerUser(@RequestBody UserDTO user)  {
 
         return new ApiResponse(true,"Success", _userService.register(user));
+    }
+
+    @PostMapping("/login")
+    public ApiResponse loginUser(@RequestBody UserDTO user)  {
+
+        return new ApiResponse(true,"Success", _userService.loginuser(user));
     }
 
 }

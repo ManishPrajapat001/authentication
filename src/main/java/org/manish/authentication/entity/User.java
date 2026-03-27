@@ -59,4 +59,8 @@ public class User {
     public void setEnabled(Boolean enabled) {
         Enabled = enabled;
     }
+
+    public long getId() {
+        return id;
+    }
 }

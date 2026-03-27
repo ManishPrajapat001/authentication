@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class demoController {
 
     @Autowired
-    DemoService demoService;
+    final DemoService demoService;
+
+    public demoController(DemoService demoService) {
+        this.demoService = demoService;
+    }
 
     @GetMapping("/")
     public String welcome(){
