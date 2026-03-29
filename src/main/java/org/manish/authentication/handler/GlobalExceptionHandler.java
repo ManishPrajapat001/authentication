@@ -44,4 +44,10 @@ public class GlobalExceptionHandler {
         String errorMessages = String.join(", ", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(false, errorMessages,null));
     }
+
+//    if anything goes wrong
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse> handleGenericException(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(false, "Something went wrong",null));
+    }
 }
