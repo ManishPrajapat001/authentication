@@ -1,18 +1,14 @@
-package org.manish.authentication.entity;
+package org.manish.authentication.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class UserDTO {
+public class LoginUserDTO {
     @NotBlank(message = "Username is mandatory")
     private String username;
-    private String password;
-    public UserDTO(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
-    public UserDTO() {
-    }
+    @NotBlank(message = "Password is mandatory")
+    private String password;
+
     public String getUsername() {
         return username;
     }
@@ -29,5 +25,8 @@ public class UserDTO {
         this.password = password;
     }
 
-
+    public LoginUserDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

@@ -1,7 +1,7 @@
 package org.manish.authentication.dto;
 
 public class UserResponseDTO {
-    private final Boolean isEnabled;
+    private Boolean isEnabled;
     private Long id;
     private String username;
     private String role ;
@@ -12,7 +12,9 @@ public class UserResponseDTO {
         this.role = role;
         this.isEnabled = isEnabled;
     }
+    public UserResponseDTO(){
 
+    }
     public String getUsername() {
         return username;
     }
@@ -38,7 +40,10 @@ public class UserResponseDTO {
     }
 
 
-    public Boolean getEnabled() {
+    public Boolean getIsEnabled() {
         return isEnabled;
+    }
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 }

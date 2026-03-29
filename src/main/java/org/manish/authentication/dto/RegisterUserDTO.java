@@ -1,18 +1,23 @@
-package org.manish.authentication.entity;
+package org.manish.authentication.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-public class UserDTO {
+public class RegisterUserDTO {
+
     @NotBlank(message = "Username is mandatory")
     private String username;
+
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
-    public UserDTO(String username, String password) {
+
+    public RegisterUserDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public UserDTO() {
-    }
+
     public String getUsername() {
         return username;
     }
@@ -28,6 +33,4 @@ public class UserDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

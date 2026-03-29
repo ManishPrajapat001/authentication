@@ -6,8 +6,13 @@ import org.manish.authentication.exception.UserAlreadyExistsException;
 import org.manish.authentication.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,4 +33,15 @@ public class GlobalExceptionHandler {
 
     }
 
+//   validation error/exception
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+        List<FieldError> FieldErrors = e.getBindingResult().getFieldErrors();
+        List<String> errors  = new ArrayList<>();
+        for(FieldError error : FieldErrors){
+            errors.add(error.getDefaultMessage());
+        }
+        String errorMessages = String.join(", ", errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(false, errorMessages,null));
+    }
 }

@@ -15,13 +15,13 @@ public class User {
 
     private String role;
 
-    private Boolean Enabled;
+    private Boolean isEnabled;
 
-    public User(String username, String password, String role, Boolean Enabled) {
+    public User(String username, String password, String role, Boolean Enabled, Boolean isEnabled) {
         this.username = username;
         this.password = password;
         this.role = role;
-        this.Enabled = Enabled;
+        this.isEnabled = isEnabled;
     }
 
     public User() {
@@ -52,15 +52,17 @@ public class User {
         this.role = role;
     }
 
-    public Boolean getEnabled() {
-        return Enabled;
-    }
 
-    public void setEnabled(Boolean enabled) {
-        Enabled = enabled;
-    }
 
     public long getId() {
         return id;
+    }
+
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(Boolean enabled) {
+        isEnabled = enabled;
     }
 }
