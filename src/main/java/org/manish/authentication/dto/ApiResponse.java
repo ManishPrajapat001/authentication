@@ -1,8 +1,14 @@
 package org.manish.authentication.dto;
 
-import org.manish.authentication.entity.User;
-
-public class ApiResponse {
+public class ApiResponse<T> {
+    String message;
+    T data;
+    boolean success;
+    public ApiResponse (boolean status,String message, T data){
+        this.message = message;
+        this.data = data;
+        this.success = status;
+    }
     public String getMessage() {
         return message;
     }
@@ -11,12 +17,12 @@ public class ApiResponse {
         this.message = message;
     }
 
-    public Object getUser() {
-        return user;
+    public Object getData() {
+        return data;
     }
 
-    public void setUser(Object user) {
-        this.user = user;
+    public void setData(T data) {
+        this.data = data;
     }
 
 
@@ -28,14 +34,7 @@ public class ApiResponse {
         this.success = success;
     }
 
-    String message;
-    Object user;
-    boolean success;
-    public ApiResponse (boolean status,String message, UserResponseDTO user){
-        this.message = message;
-        this.user = user;
-        this.success = status;
-    }
+
 
 
 }

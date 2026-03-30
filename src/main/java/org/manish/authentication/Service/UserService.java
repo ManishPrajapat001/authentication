@@ -1,5 +1,6 @@
 package org.manish.authentication.Service;
 
+import org.manish.authentication.dto.AuthResponse;
 import org.manish.authentication.dto.LoginUserDTO;
 import org.manish.authentication.dto.RegisterUserDTO;
 import org.manish.authentication.dto.UserResponseDTO;
@@ -24,6 +25,7 @@ public class UserService {
     private final ModelMapper modelMapper ;
     private final PasswordEncoder passwordEncoder;
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private final JWTService jwtService;
 
     @Value("${app.default-role}")
     private String defaultRole;
@@ -31,10 +33,11 @@ public class UserService {
     @Value("${app.default-enabled}")
     private Boolean defaultEnabled;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, JWTService jwtService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
 
@@ -57,23 +60,27 @@ public class UserService {
 //        return new UserResponseDTO(savedUser.getId(),savedUser.getUsername(),savedUser.getRole(),savedUser.getIsEnabled());
     }
 
-    public UserResponseDTO loginUser(LoginUserDTO userDTO){
+    public AuthResponse loginUser(LoginUserDTO userDTO){
         User user  = userRepository.findByUsername(userDTO.getUsername());
         if (user == null){
             logger.error("Login attempt with non-existing username: {}", userDTO.getUsername());
             throw new UserNotFoundException("User not found!");
         }
-//        if(!user.getPassword().equals(userDTO.getPassword()) ){
-//            throw new InvalidPasswordException("Invalid password!");
-//        }
+
         if(!passwordEncoder.matches(userDTO.getPassword(), user.getPassword())){
             logger.error("Invalid password attempt for username: {}", userDTO.getUsername());
             throw new InvalidPasswordException("Invalid password!");
         }
         logger.atInfo().log("User logged in successfully: {}", userDTO.getUsername());
-        return modelMapper.map(user,UserResponseDTO.class);
-//        return new UserResponseDTO(user.getId(),user.getUsername(),user.getRole(),user.getIsEnabled());
+        return new AuthResponse(jwtService.generateToken(user.getUsername()),modelMapper.map(user,UserResponseDTO.class));
+
     }
 
 
 }
+//        if(!user.getPassword().equals(userDTO.getPassword()) ){
+//            throw new InvalidPasswordException("Invalid password!");
+//        }
+//        return new AuthResponse(jwtService.generateToken(user.getUsername()),modelMapper.map(user,UserResponseDTO.class));
+//        return new UserResponseDTO(user.getId(),user.getUsername(),user.getRole(),user.getIsEnabled());
+
