@@ -5,6 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 
@@ -22,7 +23,16 @@ public class JWTService {
         return Jwts.builder()
                 .setSubject(username).setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour expiration
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+                .signWith(getSignInKey()).compact();
+
+    }
+    public String extractUsername(String token){
+            return Jwts.parser()
+                    .verifyWith((SecretKey) getSignInKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
 
     }
 }
