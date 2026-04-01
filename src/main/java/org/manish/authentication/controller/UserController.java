@@ -4,6 +4,7 @@ package org.manish.authentication.controller;
 import jakarta.validation.Valid;
 import org.manish.authentication.Service.UserService;
 import org.manish.authentication.dto.*;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,12 @@ public class UserController {
     public ApiResponse<AuthResponse> loginUser(@Valid @RequestBody LoginUserDTO user)  {
 
         return new ApiResponse<>(true,"Success", _userService.loginUser(user));
+    }
+
+    @GetMapping("/user/me")
+    public ApiResponse<UserResponseDTO> getCurrentUser()  {
+
+        return new ApiResponse<>(true,"Success", _userService.getCurrentUser());
     }
 
 }

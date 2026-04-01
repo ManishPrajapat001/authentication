@@ -24,4 +24,14 @@ public class demoController {
 //        return demoService.demoService();
 //        return "Har har mahadev!";
     }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "Admin access";
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return "User access";
+    }
 }

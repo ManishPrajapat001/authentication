@@ -11,6 +11,7 @@ import org.manish.authentication.exception.UserNotFoundException;
 import org.manish.authentication.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +78,15 @@ public class UserService {
     }
 
 
+    public UserResponseDTO getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        if( user ==null){
+            throw new UserNotFoundException("User not found!");
+        }
+        logger.atInfo().log("Fetching current user details for username: {}", username);
+        return  modelMapper.map(user,UserResponseDTO.class);
+    }
 }
 //        if(!user.getPassword().equals(userDTO.getPassword()) ){
 //            throw new InvalidPasswordException("Invalid password!");
